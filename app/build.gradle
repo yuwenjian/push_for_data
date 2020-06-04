@@ -1,0 +1,87 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.mob.sdk'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+    defaultConfig {
+        applicationId "com.mob.demo.mobpush"
+        minSdkVersion 17
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        release {
+            keyAlias 'demokey.keystore'
+            keyPassword '123456'
+            storeFile file('demokey.keystore')
+            storePassword '123456'
+        }
+    }
+
+    buildTypes {
+        release {
+            zipAlignEnabled false
+            minifyEnabled true// 是否混淆
+            shrinkResources false// 是否去除无效的资源文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+}
+
+
+MobSDK {
+    appKey "moba6b6c6d6"
+    appSecret "b89d2427a3bc7ad1aea1e1e8c1d36bf3"
+
+    MobPush {
+        devInfo {
+            HUAWEI {
+                appId "100215127"
+            }
+
+            MEIZU {
+                appId "112481"
+                appKey "03dd70b9be434446a7255c8586e1725a"
+            }
+
+            XIAOMI {
+                appId "2882303761517721670"
+                appKey "5671772162670"
+            }
+
+            FCM {
+                //设置默认推送通知显示图标
+                iconRes "@mipmap/ic_launcher"
+            }
+
+            //此处OPPO的配置信息只是用来展示配置示例，不能用了测试OPPO通道推送，如需推送请替换成自己的正确应用信息
+//            OPPO{
+////                appKey "OPPO appKey"
+////                appSecret "OPPO appSecret"
+//            }
+            VIVO {
+                appId "11154"
+                appKey "0afbe1b7-b850-4d45-8cee-c57cceff652e"
+            }
+
+        }
+    }
+}
